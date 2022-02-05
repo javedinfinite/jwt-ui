@@ -79,7 +79,7 @@ const MyAppBar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Button component={Link} to={page.path} textAlign="center">{page.name}</Button>
+                  <Button component={Link} to={page.path} textalign="center">{page.name}</Button>
                 </MenuItem>
               ))}
             </Menu>
@@ -129,7 +129,7 @@ const MyAppBar = () => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography textalign="center">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
