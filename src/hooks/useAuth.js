@@ -1,4 +1,5 @@
 import { useEffect, useCallback, useState } from "react";
+import axios from 'axios';
 const useRegister = () => {
 
     const [data, setData] = useState();
@@ -21,6 +22,23 @@ const useRegister = () => {
     useEffect(() => {
         if (triggerRegisterApi) {
             console.log('register api called', registerName, registerUserName, registerPassword);
+            setLoading(true);
+            axios.post('http://localhost:4000/hackers/register', {
+              "name": registerName,
+              "user_name" : registerUserName,
+              "password" : registerPassword,
+              "user_type" : "user"
+          }).then((res)=>{
+            console.log('res', res);
+            setTriggerRegisterApi(false)
+            setData(res.data)
+          }).catch((err)=>{
+            console.log('err', err);
+            setError(err)
+            setTriggerRegisterApi(false)
+          }).finally(()=>{
+            setLoading(false)
+          })
             //in finally block setTriggerApi(undefined) or on API error/success set it to false so that next time it can be called.
         }
       }, [registerName, registerPassword, registerUserName, triggerRegisterApi]);
@@ -48,6 +66,22 @@ const useLogin = () => {
       useEffect(() => {
         if (triggerLoginApi) {
             console.log('login api called', loginUserName, loginPassword);
+            setLoading(true);
+            axios.post('http://localhost:4000/hackers/login', {
+              "user_name": loginUserName,
+              "password": loginPassword
+          }).then((res)=>{
+            console.log('res', res);
+            setTriggerLoginApi(false)
+            setData(res.data)
+          }).catch((err)=>{
+            console.log('err', err);
+            setError(err)
+            setTriggerLoginApi(false)
+          }).finally(()=>{
+            setLoading(false)
+          })
+            
             //in finally block setTriggerApi(undefined) or on API error/success set it to false so that next time it can be called.
         }
       }, [loginPassword, loginUserName, triggerLoginApi]);
