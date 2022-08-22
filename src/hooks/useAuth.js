@@ -76,7 +76,7 @@ const useLogin = () => {
             setData(res.data)
           }).catch((err)=>{
             console.log('err', err);
-            setError(err)
+            setError({message: 'something went wromng', authResponse: false})
             setTriggerLoginApi(false)
           }).finally(()=>{
             setLoading(false)

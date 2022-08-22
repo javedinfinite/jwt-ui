@@ -1,11 +1,11 @@
-import React, {useContext} from "react";
+import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { useAuthContext } from "./context/AuthContext";
 
 const PrivateRoute = (props) => {
-    const authLogin  = false;
-    // const { authLogin } = useContext('globalC');
+    const { authState } = useAuthContext();
   
-    return authLogin ? <Outlet /> : <Navigate to="/login" />;
+    return authState.isLogIn ? <Outlet /> : <Navigate to="/login" />;
   };
 
 export default PrivateRoute;

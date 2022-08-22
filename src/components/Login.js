@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from '../hooks/useAuth';
+import { useAuthContext } from '../context/AuthContext';
 
 const loginConstants =  {
   PASSWORD: 'password',
@@ -20,6 +21,8 @@ const Login = (props) => {
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
 
+    const navigate = useNavigate();
+
 
     const {
       data: loginApiResponse,
@@ -33,6 +36,33 @@ const Login = (props) => {
       setPassword('')
     }
 
+    const {setAuthState} = useAuthContext()
+
+    useEffect(() => {
+      if (loginApiResponse?.data.user_exists) {
+        console.log('loginApiResponse', loginApiResponse.data.user_exists)
+        setAuthState((prevData) => ({
+          ...prevData,
+          isLogIn:  loginApiResponse.data.user_exists,
+          jwtKey: loginApiResponse.data.token
+        }));
+        navigate('/');
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      }}, [loginApiResponse])
+
+
+    useEffect(() => {
+      if (loginApiError) {
+        console.log('loginApiError', loginApiError)
+        setAuthState((prevData) => ({
+          ...prevData,
+          isLogIn:  loginApiError.authResponse
+        }));
+        setUserNameError('invalid user')
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      }}, [loginApiError])
+
     const handleOnchange = (e) => {
           if(e.target.name===loginConstants.PASSWORD)
             setPassword(e.target.value);
@@ -40,13 +70,6 @@ const Login = (props) => {
             setUserName(e.target.value);
     }
     const handleSubmit = () => {
-      const userError = false;
-      const passError = false;
-      if(userError)
-        setUserNameError('invalid user')
-      else if(passError)
-        setPasswordError('password does not match')
-      else
       loginApiTrigger(true, userName, password)
       clearTextFields()
 
