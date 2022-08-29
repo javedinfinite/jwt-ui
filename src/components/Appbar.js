@@ -21,8 +21,8 @@ const MyAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const {setAuthState} = useAuthContext()
-  const { authState: {isLogIn} } = useAuthContext();
+  const {setAuthState, authState: {isLogIn}} = useAuthContext()
+  
   const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {

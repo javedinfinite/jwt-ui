@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRegister } from '../hooks/useAuth'
+import { useAuthContext } from '../context/AuthContext';
 
 const registerConstants =  {
   NAME: 'name',
@@ -22,12 +23,16 @@ const Register = (props) => {
     const [name, setName] = useState('')
     const [userName, setUserName] = useState('')
     const [password, setPassord] = useState('')
+    const [registerButtonDisabled, setRegisterButtonDisabled] = useState(false)
 
     const clearTextFields = () => {
       setName('');
       setUserName('')
       setPassord('')
     }
+
+    const navigate = useNavigate();
+    const {setAuthState} = useAuthContext()
 
     const {
       data: registerApiResponse,
@@ -36,18 +41,47 @@ const Register = (props) => {
       trigger: registerApiTrigger,
     } = useRegister();
 
+    useEffect(()=>{
+      if(registerApiResponse?.data.duplicate===false){
+        setAuthState((prevData) => ({
+          ...prevData,
+          isNewlyRegistered: true
+        }));
+        navigate('/login');
+        console.log('testing registration success...', registerApiResponse)
+      }
+        
+    }, [registerApiResponse])
+
+    useEffect(()=>{
+      if(registerApiLoading){
+        setRegisterButtonDisabled(true)
+      }
+      else if(registerApiLoading===false)
+        setRegisterButtonDisabled(false)
+
+    }, [registerApiLoading])
+
+    useEffect(() => {
+      if (registerApiError) {
+        console.log('registerApiError', registerApiError)
+        setUserNameError('Registration failed with error')
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      }}, [registerApiError])
+
+
 
     const handleSubmit = (e) => {
-      const nameError = false;
-      const userError = false;
-      const passError = false;
-      if(nameError)
+      setNameError(false)
+      setUserNameError(false)
+      setPasswordError(false)
+      if(name==='' || null)
         setNameError('invalid user')
-      if(userError)
-        setUserNameError('invalid user')
-      else if(passError)
+      if(userName==='' || null)
+        setUserNameError('invalid user name')
+      if(password==='' || null)
         setPasswordError('password does not match')
-      else
+      else if(!(nameError || userNameError || passwordError))
         registerApiTrigger(true, name, userName, password);
         // console.log('name, userName, password', name, userName, password)
       clearTextFields();
@@ -82,7 +116,7 @@ const Register = (props) => {
             label="Name"
             onChange={handleOnchange}
             placeholder="Enter First Name"
-            helperText={userNameError}
+            helperText={nameError}
             value={name}
             InputProps={{
                 startAdornment: (
@@ -128,7 +162,7 @@ const Register = (props) => {
             />
         </div>
         </Box>
-        <Button onClick={handleSubmit} variant="contained">Register</Button>
+        <Button onClick={handleSubmit} variant="contained" disabled={registerButtonDisabled}>Register</Button>
         <p>Already Registered? <Link to="/login">Login Here</Link> </p>
       </div>
     );

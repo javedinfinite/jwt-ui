@@ -7,6 +7,7 @@ const useAuthContext = () => useContext(AuthContext)
 const initialAuthState = {
     isLogIn: false,
     jwtKey: undefined,
+    isNewlyRegistered: false,
 }
 
 const AuthProvider = ({children}) => {

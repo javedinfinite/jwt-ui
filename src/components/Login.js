@@ -16,10 +16,12 @@ const loginConstants =  {
 
 const Login = (props) => {
 
-    const [userNameError, setUserNameError] = useState('')
-    const [passwordError, setPasswordError] = useState('')
+    const [userNameError, setUserNameError] = useState(false)
+    const [passwordError, setPasswordError] = useState(false)
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
+    const [loginButtonDisabled, setLoginButtonDisabled] = useState(false)
+
 
     const navigate = useNavigate();
 
@@ -36,7 +38,7 @@ const Login = (props) => {
       setPassword('')
     }
 
-    const {setAuthState} = useAuthContext()
+    const {setAuthState, authState: {isNewlyRegistered}} = useAuthContext()
 
     useEffect(() => {
       if (loginApiResponse?.data.user_exists) {
@@ -44,12 +46,22 @@ const Login = (props) => {
         setAuthState((prevData) => ({
           ...prevData,
           isLogIn:  loginApiResponse.data.user_exists,
-          jwtKey: loginApiResponse.data.token
+          jwtKey: loginApiResponse.data.token,
+          isNewlyRegistered: false
         }));
         navigate('/');
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }}, [loginApiResponse])
+
+      useEffect(()=>{
+        if(loginApiLoading){
+          setLoginButtonDisabled(true)
+        }
+        else if(loginApiLoading===false)
+        setLoginButtonDisabled(false)
+  
+      }, [loginApiLoading])
 
 
     useEffect(() => {
@@ -70,7 +82,14 @@ const Login = (props) => {
             setUserName(e.target.value);
     }
     const handleSubmit = () => {
-      loginApiTrigger(true, userName, password)
+      setUserNameError(false)
+      setPasswordError(false)
+      if(userName==='' || null)
+        setUserNameError('invalid userName')
+      if(password==='' || null)
+        setPasswordError('invalid password')
+      else if (!(userNameError || passwordError))
+        loginApiTrigger(true, userName, password)
       clearTextFields()
 
     }
@@ -84,9 +103,10 @@ const Login = (props) => {
           noValidate
           autoComplete="off"
         >
+          {isNewlyRegistered && <p style={{color:'green'}}>You are successfully registered, please login</p>}
         <div>
             <TextField
-            error={false}
+            error={userNameError}
             id="outlined-error"
             label="UserName"
             placeholder="Enter User Name"
@@ -103,7 +123,7 @@ const Login = (props) => {
               }}
             />
             <TextField
-            error={false}
+            error={passwordError}
             id="outlined-error-helper-text"
             label="Password"
             placeholder="Enter Password"
@@ -121,7 +141,7 @@ const Login = (props) => {
             />
         </div>
         </Box>
-        <Button onClick={handleSubmit} variant="contained">Login</Button>
+        <Button onClick={handleSubmit} variant="contained" disabled={loginButtonDisabled}>Login</Button>
         <p>New User? <Link to="/register">Register Here</Link> </p>
         
       </div>

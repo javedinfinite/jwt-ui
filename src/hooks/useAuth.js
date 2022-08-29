@@ -33,8 +33,8 @@ const useRegister = () => {
             setTriggerRegisterApi(false)
             setData(res.data)
           }).catch((err)=>{
-            console.log('err', err);
-            setError(err)
+            console.log('err', err.message);
+            setError({message: 'Registration failed, check if ', authResponse: false})
             setTriggerRegisterApi(false)
           }).finally(()=>{
             setLoading(false)
