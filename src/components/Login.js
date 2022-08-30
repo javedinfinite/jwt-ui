@@ -16,10 +16,11 @@ const loginConstants =  {
 
 const Login = (props) => {
 
-    const [userNameError, setUserNameError] = useState(false)
-    const [passwordError, setPasswordError] = useState(false)
+    const [userNameError, setUserNameError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
+    const [loginError, setLoginError] = useState('')
     const [loginButtonDisabled, setLoginButtonDisabled] = useState(false)
 
 
@@ -67,11 +68,7 @@ const Login = (props) => {
     useEffect(() => {
       if (loginApiError) {
         console.log('loginApiError', loginApiError)
-        setAuthState((prevData) => ({
-          ...prevData,
-          isLogIn:  loginApiError.authResponse
-        }));
-        setUserNameError('invalid user')
+        setLoginError(loginApiError.errMessage)
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }}, [loginApiError])
 
@@ -81,17 +78,30 @@ const Login = (props) => {
           if(e.target.name===loginConstants.USER_NAME)
             setUserName(e.target.value);
     }
-    const handleSubmit = () => {
-      setUserNameError(false)
-      setPasswordError(false)
-      if(userName==='' || null)
-        setUserNameError('invalid userName')
-      if(password==='' || null)
-        setPasswordError('invalid password')
-      else if (!(userNameError || passwordError))
-        loginApiTrigger(true, userName, password)
-      clearTextFields()
 
+    const isLoginFormValid = () => {
+      setUserNameError('')
+      setPasswordError('')
+      setLoginError('')
+      if(userName==='')
+        setUserNameError('invalid user_name')
+      if(password==='')
+        setPasswordError('invalid password')
+      if(userName==='' || password==='')
+        return false
+      else  
+        return true
+    }
+
+    const handleSubmit = () => {
+      if (isLoginFormValid()){
+        setAuthState((prevData) => ({
+          ...prevData,
+          isNewlyRegistered: false
+        }));
+        loginApiTrigger(true, userName, password)
+        clearTextFields()
+      }
     }
     return (
       <div>
@@ -104,6 +114,7 @@ const Login = (props) => {
           autoComplete="off"
         >
           {isNewlyRegistered && <p style={{color:'green'}}>You are successfully registered, please login</p>}
+          {loginError!=='' && <p style={{color:'red'}}>{loginError}</p>}
         <div>
             <TextField
             error={userNameError}
@@ -128,6 +139,7 @@ const Login = (props) => {
             label="Password"
             placeholder="Enter Password"
             value={password}
+            type="password"
             helperText={passwordError}
             name={loginConstants.PASSWORD}
             onChange={(e)=>handleOnchange(e)}

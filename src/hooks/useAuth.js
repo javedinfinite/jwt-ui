@@ -21,7 +21,6 @@ const useRegister = () => {
 
     useEffect(() => {
         if (triggerRegisterApi) {
-            console.log('register api called', registerName, registerUserName, registerPassword);
             setLoading(true);
             axios.post('http://localhost:4000/hackers/register', {
               "name": registerName,
@@ -29,12 +28,10 @@ const useRegister = () => {
               "password" : registerPassword,
               "user_type" : "user"
           }).then((res)=>{
-            console.log('res', res);
             setTriggerRegisterApi(false)
             setData(res.data)
           }).catch((err)=>{
-            console.log('err', err.message);
-            setError({message: 'Registration failed, check if ', authResponse: false})
+            setError({errMessage: err.response.data.data.desc, errorStatus: err.response.status})
             setTriggerRegisterApi(false)
           }).finally(()=>{
             setLoading(false)
@@ -76,7 +73,7 @@ const useLogin = () => {
             setData(res.data)
           }).catch((err)=>{
             console.log('err', err);
-            setError({message: 'something went wromng', authResponse: false})
+            setError({errMessage: err.response.data.data.desc, errorStatus: err.response.status})
             setTriggerLoginApi(false)
           }).finally(()=>{
             setLoading(false)

@@ -17,22 +17,25 @@ const registerConstants =  {
 
 const Register = (props) => {
 
-    const [nameError, setNameError] = useState(false)
-    const [userNameError, setUserNameError] = useState(false)
-    const [passwordError, setPasswordError] = useState(false)
+    const [nameError, setNameError] = useState('')
+    const [userNameError, setUserNameError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+    const [regError, setRegError] = useState('')
     const [name, setName] = useState('')
     const [userName, setUserName] = useState('')
     const [password, setPassord] = useState('')
     const [registerButtonDisabled, setRegisterButtonDisabled] = useState(false)
 
-    const clearTextFields = () => {
-      setName('');
-      setUserName('')
-      setPassord('')
-    }
+    // const clearTextFields = () => {
+    //   setName('');
+    //   setUserName('')
+    //   setPassord('')
+    // }
 
     const navigate = useNavigate();
     const {setAuthState} = useAuthContext()
+
+
 
     const {
       data: registerApiResponse,
@@ -42,13 +45,20 @@ const Register = (props) => {
     } = useRegister();
 
     useEffect(()=>{
+      setAuthState((prevData) => ({
+        ...prevData,
+        isNewlyRegistered: false
+      }));
+    }, [])
+
+    useEffect(()=>{
       if(registerApiResponse?.data.duplicate===false){
+        setRegError('')
         setAuthState((prevData) => ({
           ...prevData,
           isNewlyRegistered: true
         }));
         navigate('/login');
-        console.log('testing registration success...', registerApiResponse)
       }
         
     }, [registerApiResponse])
@@ -64,27 +74,33 @@ const Register = (props) => {
 
     useEffect(() => {
       if (registerApiError) {
-        console.log('registerApiError', registerApiError)
-        setUserNameError('Registration failed with error')
+        setRegError(registerApiError.errMessage)
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }}, [registerApiError])
+
+    const isRegFormValid = () => {
+      setNameError('')
+      setUserNameError('')
+      setPasswordError('')
+      setRegError('')
+      if(name==='')
+        setNameError('invalid user')
+      if(userName==='')
+        setUserNameError('invalid user_name')
+      if(password==='')
+        setPasswordError('invalid password')
+      if(name==='' || userName==='' || password==='')
+        return false
+      else  
+        return true
+    }
 
 
 
     const handleSubmit = (e) => {
-      setNameError(false)
-      setUserNameError(false)
-      setPasswordError(false)
-      if(name==='' || null)
-        setNameError('invalid user')
-      if(userName==='' || null)
-        setUserNameError('invalid user name')
-      if(password==='' || null)
-        setPasswordError('password does not match')
-      else if(!(nameError || userNameError || passwordError))
+      if(isRegFormValid())
         registerApiTrigger(true, name, userName, password);
-        // console.log('name, userName, password', name, userName, password)
-      clearTextFields();
+      // clearTextFields();
 
     }
 
@@ -109,6 +125,7 @@ const Register = (props) => {
           autoComplete="off"
         >
         <div>
+        {regError!=='' && <p style={{color : 'red'}}>{regError}</p>}
         <TextField
             error={nameError}
             name={registerConstants.NAME}
@@ -148,6 +165,7 @@ const Register = (props) => {
             id="outlined-error-helper-text"
             onChange={handleOnchange}
             label="Password"
+            type="password"
             name={registerConstants.PASSWORD}
             value={password}
             placeholder="Enter Password"
