@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -46,6 +47,10 @@ const MyAppBar = () => {
       navigate('/login');
 
     }
+    if(setting==='Profile'){
+      axios.get('http://localhost:4000/hackers/rtoken', {withCredentials: true}).then((res)=>{
+        console.log('res cookie', res);
+      })};
     setAnchorElUser(null);
   };
 

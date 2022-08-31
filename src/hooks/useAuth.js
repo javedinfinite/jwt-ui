@@ -66,8 +66,8 @@ const useLogin = () => {
             setLoading(true);
             axios.post('http://localhost:4000/hackers/login', {
               "user_name": loginUserName,
-              "password": loginPassword
-          }).then((res)=>{
+              "password": loginPassword,
+          }, { withCredentials: true }).then((res)=>{
             console.log('res', res);
             setTriggerLoginApi(false)
             setData(res.data)
