@@ -50,6 +50,7 @@ const Login = (props) => {
           jwtKey: loginApiResponse.data.token,
           isNewlyRegistered: false
         }));
+        localStorage.setItem('hacker_user', JSON.stringify(loginApiResponse.data))
         navigate('/');
 
       // eslint-disable-next-line react-hooks/exhaustive-deps

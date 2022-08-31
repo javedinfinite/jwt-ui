@@ -44,13 +44,15 @@ const MyAppBar = () => {
         ...prevData,
         isLogIn:  false
       }));
+      localStorage.removeItem('hacker_user');
       navigate('/login');
 
     }
-    if(setting==='Profile'){
-      axios.get('http://localhost:4000/hackers/rtoken', {withCredentials: true}).then((res)=>{
-        console.log('res cookie', res);
-      })};
+    // testing refresh token endpoint
+    // if(setting==='Profile'){
+    //   axios.get('http://localhost:4000/hackers/rtoken', {withCredentials: true}).then((res)=>{
+    //     console.log('res cookie', res);
+    //   })};
     setAnchorElUser(null);
   };
 
