@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import './App.css';
 import {Routes, Route, HashRouter} from "react-router-dom";
 import Login from './components/Login';
@@ -8,7 +8,7 @@ import MyAppbar from './components/Appbar';
 import PrivateRoute  from './Privateroute';
 import { AuthProvider } from './context/AuthContext'
 import { AuthWrapper } from "./AppWrapper";
-import Page2 from "./components/page2";
+import TopNHackers from "./components/TopNHackers";
 
 const  App = () => {
 
@@ -23,8 +23,8 @@ const  App = () => {
           <MyAppbar/>
           <header className="App-header">
           <Routes>
-              <Route exact path='/page2' element={<PrivateRoute/>}>
-                <Route exact path='/page2' element={<Page2/>}/>
+              <Route exact path='/tophackers' element={<PrivateRoute/>}>
+                <Route exact path='/tophackers' element={<TopNHackers/>}/>
               </Route>
             <Route path="login" element={<Login />} /> 
             <Route path="register" element={<Register />} />

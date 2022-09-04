@@ -1,5 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from '../context/AuthContext';
 
-const pages = [{name:'Dashboard', path: '/'}, {name:'page2', path: '/page2'}];
+const pages = [{name:'Dashboard', path: '/'}, {name:'Top Hackers', path: '/tophackers'}];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const MyAppBar = () => {
