@@ -127,7 +127,7 @@ const Register = (props) => {
         <div>
         {regError!=='' && <p style={{color : 'red'}}>{regError}</p>}
         <TextField
-            error={nameError}
+            error={nameError.length> 0}
             name={registerConstants.NAME}
             id="outlined-error"
             label="Name"
@@ -144,7 +144,7 @@ const Register = (props) => {
               }}
             />
             <TextField
-            error={userNameError}
+            error={userNameError.length> 0}
             name={registerConstants.USER_NAME}
             id="outlined-error"
             onChange={handleOnchange}
@@ -161,7 +161,7 @@ const Register = (props) => {
               }}
             />
             <TextField
-            error={passwordError}
+            error={passwordError.length> 0}
             id="outlined-error-helper-text"
             onChange={handleOnchange}
             label="Password"

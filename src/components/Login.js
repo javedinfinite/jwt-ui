@@ -118,7 +118,7 @@ const Login = (props) => {
           {loginError!=='' && <p style={{color:'red'}}>{loginError}</p>}
         <div>
             <TextField
-            error={userNameError}
+            error={userNameError.length> 0}
             id="outlined-error"
             label="UserName"
             placeholder="Enter User Name"
@@ -135,7 +135,7 @@ const Login = (props) => {
               }}
             />
             <TextField
-            error={passwordError}
+            error={passwordError.length> 0}
             id="outlined-error-helper-text"
             label="Password"
             placeholder="Enter Password"

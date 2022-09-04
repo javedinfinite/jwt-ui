@@ -10,6 +10,7 @@ const AuthWrapper = ({children}) => {
     useEffect(() => {
       const localHackerUser = localStorage.getItem("hacker_user");
       if (localHackerUser) {
+        console.log('1st....')
         const hackerUser = JSON.parse(localHackerUser);
         setAuthState((prevData) => ({
           isLogIn: hackerUser.user_exists,
@@ -18,6 +19,15 @@ const AuthWrapper = ({children}) => {
           appWrapperLoading: false
         }));
       }
+      else {
+        console.log('2nd....')
+        setAuthState((prevData) => ({
+        isNewlyRegistered: false,
+        appWrapperLoading: false
+      }));
+
+      }
+
     }, []);
 
     if(authState.appWrapperLoading)
