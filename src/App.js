@@ -8,7 +8,7 @@ import MyAppbar from './components/Appbar';
 import PrivateRoute  from './Privateroute';
 import { AuthProvider } from './context/AuthContext'
 import { AuthWrapper } from "./AppWrapper";
-import TopNHackers from "./components/TopNHackers";
+import TopNHackers from "./components/tophackers";
 
 const  App = () => {
 
