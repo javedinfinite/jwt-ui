@@ -129,7 +129,7 @@ const Register = (props) => {
         <TextField
             error={nameError.length> 0}
             name={registerConstants.NAME}
-            id="outlined-error"
+            id="first-name"
             label="Name"
             onChange={handleOnchange}
             placeholder="Enter First Name"
@@ -146,7 +146,7 @@ const Register = (props) => {
             <TextField
             error={userNameError.length> 0}
             name={registerConstants.USER_NAME}
-            id="outlined-error"
+            id="user-name"
             onChange={handleOnchange}
             label="UserName"
             value={userName}
@@ -162,7 +162,7 @@ const Register = (props) => {
             />
             <TextField
             error={passwordError.length> 0}
-            id="outlined-error-helper-text"
+            id="password"
             onChange={handleOnchange}
             label="Password"
             type="password"

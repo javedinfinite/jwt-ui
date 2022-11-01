@@ -9,12 +9,12 @@ const AuthWrapper = ({children}) => {
 
     useEffect(() => {
       const localHackerUser = localStorage.getItem("hacker_user");
-      if (localHackerUser) {
+      if (localHackerUser!==null && localHackerUser!=='undefined') {
         console.log('1st....')
         const hackerUser = JSON.parse(localHackerUser);
         setAuthState((prevData) => ({
-          isLogIn: hackerUser.user_exists,
-          jwtKey: hackerUser.token,
+          isLogIn: true,
+          jwtKey: hackerUser,
           isNewlyRegistered: false,
           appWrapperLoading: false
         }));

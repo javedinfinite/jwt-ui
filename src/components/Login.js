@@ -50,7 +50,7 @@ const Login = (props) => {
           jwtKey: loginApiResponse.data.token,
           isNewlyRegistered: false
         }));
-        localStorage.setItem('hacker_user', JSON.stringify(loginApiResponse.data))
+        localStorage.setItem('hacker_user', JSON.stringify(loginApiResponse.data.token))
         navigate('/');
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -119,7 +119,7 @@ const Login = (props) => {
         <div>
             <TextField
             error={userNameError.length> 0}
-            id="outlined-error"
+            id="user-name"
             label="UserName"
             placeholder="Enter User Name"
             helperText={userNameError}
@@ -136,7 +136,7 @@ const Login = (props) => {
             />
             <TextField
             error={passwordError.length> 0}
-            id="outlined-error-helper-text"
+            id="password"
             label="Password"
             placeholder="Enter Password"
             value={password}
