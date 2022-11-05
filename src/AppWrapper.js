@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-
+import CircularProgress from '@mui/material/CircularProgress';
 import { useAuthContext } from './context/AuthContext'
 
 
@@ -31,7 +31,7 @@ const AuthWrapper = ({children}) => {
     }, []);
 
     if(authState.appWrapperLoading)
-        return <p>Loading....</p>
+        return <CircularProgress />
 
     return <>
         {children}
