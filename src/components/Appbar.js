@@ -18,7 +18,7 @@ const pages = [
   { name: "Dashboard", path: "/" },
   { name: "Top Hackers", path: "/tophackers" },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Dashboard", "TopHackers", "Logout"];
 
 const MyAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -50,6 +50,12 @@ const MyAppBar = () => {
       }));
       localStorage.removeItem("hacker_user");
       navigate("/login");
+    }
+    if (setting === "Dashboard") {
+      navigate("/");
+    }
+    if (setting === "TopHackers") {
+      navigate("/tophackers");
     }
     setAnchorElUser(null);
   };
