@@ -9,9 +9,12 @@ import PrivateRoute from "./Privateroute";
 import { AuthProvider } from "./context/AuthContext";
 import { AuthWrapper } from "./AppWrapper";
 import TopNHackers from "./components/tophackers";
+import { ErrorBoundary } from "./ErrorBoundary";
+import NotFound from "./NotFound";
 
 const App = () => {
   return (
+    <ErrorBoundary>
     <AuthProvider>
       <AuthWrapper>
         <div className="App">
@@ -25,12 +28,14 @@ const App = () => {
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
                 <Route exact path="/" element={<Home />} />
+                <Route exact path="*" element={<NotFound />} />
               </Routes>
             </header>
           </HashRouter>
         </div>
       </AuthWrapper>
     </AuthProvider>
+    </ErrorBoundary>
   );
 };
 
