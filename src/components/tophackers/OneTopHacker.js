@@ -12,8 +12,8 @@ export const OneTopHacker = ({ item }) => {
       <CardMedia
         component="img"
         height="200"
-        image="https://cdn.pixabay.com/photo/2017/05/17/15/08/ransomware-2321110_1280.jpg"
-        alt="green iguana"
+        image="https://images.pexels.com/photos/5952651/pexels-photo-5952651.jpeg?auto=compress&cs=tinysrgb&w=1600"
+        alt="hacker image"
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
