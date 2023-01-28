@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid } from "@mui/material";
 
-export default function ErrorCallback() {
+export default function ErrorFallback() {
   return (
     <div>
       <Grid

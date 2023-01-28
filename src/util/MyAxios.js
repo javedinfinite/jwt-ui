@@ -7,13 +7,13 @@ const myAxios = axios.create({
 const requestHandler = (request) => {
   const localHackerUser = localStorage.getItem("hacker_user");
   if (localHackerUser) {
-    request.headers.authorization = `Bearer ${JSON.parse(localHackerUser)}`;
+    request.headers.authorization = `Bearer ${JSON.parse(localHackerUser)}`; // To do: Don't add token to the api call which don't need token
   }
   return request;
 };
 
 const responseHandler = (response) => {
-  return response;
+  return response; // Here we can do something with response before it is utilized, currently it is not doing anything, just a placeholder
 };
 
 const errorHandler = (error) => {

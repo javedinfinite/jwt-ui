@@ -12,7 +12,7 @@ const AuthWrapper = ({children}) => {
       if (localHackerUser!==null && localHackerUser!=='undefined') {
         console.log('1st....')
         const hackerUser = JSON.parse(localHackerUser);
-        setAuthState((prevData) => ({
+        setAuthState(() => ({
           isLogIn: true,
           jwtKey: hackerUser,
           isNewlyRegistered: false,
@@ -22,6 +22,7 @@ const AuthWrapper = ({children}) => {
       else {
         console.log('2nd....')
         setAuthState((prevData) => ({
+        ...prevData,
         isNewlyRegistered: false,
         appWrapperLoading: false
       }));
@@ -30,7 +31,7 @@ const AuthWrapper = ({children}) => {
 
     }, []);
 
-    if(authState.appWrapperLoading)
+    if(authState.appWrapperLoading) // while authWrapper is getting intialised by above useEffect, don't load the app as auth value may not be present while trying to access it in other child comp
         return <CircularProgress />
 
     return <>

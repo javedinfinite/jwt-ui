@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
-const useAuthContext = () => useContext(AuthContext);
+const useAuthContext = () => useContext(AuthContext); // to avoid importing both usecontext as well as Authcontext, we can simply import just useAuthContext where we need authcontext
 
 const initialAuthState = {
   isLogIn: false,

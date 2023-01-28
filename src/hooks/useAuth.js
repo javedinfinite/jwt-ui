@@ -72,12 +72,14 @@ const useLogin = () => {
       setLoading(true);
       axios
         .post(
-          "http://localhost:4000/hackers/login",
+          "http://localhost:4000/hackers/login", 
           {
             user_name: loginUserName,
             password: loginPassword,
           },
-          { withCredentials: true }
+          { withCredentials: true } // we are not using our custom axios instance here as it is not needed to intrcept request/response while registering or login
+                                    // but the login reponse contains cookie which I want to store in the browser, for that withCredentials flag is used becasue
+                                    // this flag has other uses but is also used to indicate when cookies are to be ignored (if withCredentials=false) in the response
         )
         .then((res) => {
           console.log("res", res);
